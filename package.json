@@ -1,0 +1,46 @@
+{
+	"name": "parse-route-data",
+	"version": "1.0.0",
+	"description": "Parse the HTTP data and check for validating",
+	"main": "lib/index.js",
+	"author": "luctst",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://www.github.com/luctst/parse-route-data"
+	},
+	"bugs": {
+		"url": "https://www.github.com/luctst/parse-route-data/issues"
+	},
+	"homepage": "https://www.github.com/luctst/parse-route-data",
+	"engines": {
+		"node": ">= 10.0.0"
+	},
+	"eslintIgnore": [
+		"lib/build/"
+	],
+	"ava": {
+		"cache": true
+	},
+	"keywords": [],
+	"scripts": {
+		"test": "ava --verbose ./test/*.js",
+		"test:watch": "ava --watch --verbose --fail-fast ./test/*.js",
+		"lint": "npx eslint --cache './lib/**/*.js'",
+		"lint:watch": "esw -w --clear --color --cache './lib/**/*.js'",
+		"lint:fix": "npx eslint --fix './lib/**/*.js'",
+		"style": "prettier -c './lib/**/*.js'",
+		"style:fix": "prettier --c --write './lib/**/*.js'"
+	},
+	"devDependencies": {
+		"ava": "^3.15.0",
+		"eslint": "^7.27.0",
+		"eslint-config-airbnb-base": "^14.2.1",
+		"eslint-config-prettier": "^8.3.0",
+		"eslint-plugin-import": "^2.23.4",
+		"eslint-plugin-prettier": "^3.4.0",
+		"eslint-watch": "^7.0.0",
+		"express": "^4.17.1",
+		"prettier": "^2.3.0"
+	}
+}
