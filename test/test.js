@@ -1,22 +1,10 @@
 const test = require('ava');
 const net = require('net');
-const { spawnSync } = require('child_process');
-const axios = require('axios');
 
 const lib = require("../lib/index");
 const http = require('../lib/utils/http');
 
 test.before(async function (t) {
-    t.context.baseUrl = 'http://localhost:57084/test';
-    t.context.server = spawnSync(
-        'node',
-        ['./test/server/index.js'],
-        {
-            detached: true,
-            shell: true
-        } 
-    );
-
     t.context.parser = new lib({
         get: {
             "api/u/:id": null,
@@ -31,7 +19,6 @@ test.before(async function (t) {
         },
         put: {},
     });
-
     const promise = new Promise(((resolve, reject) => {
         const socket = new net.Socket();
 
@@ -76,7 +63,3 @@ test('First level keys must be object',  function (t) {
 
     t.pass();
 });
-
-// test.after(function (t) {
-//     // t.log(t.context.server);
-// });
