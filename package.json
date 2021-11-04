@@ -46,5 +46,8 @@
 		"get-port": "^5.1.1",
 		"prettier": "^2.3.0",
 		"supertest": "^6.1.6"
+	},
+	"dependencies": {
+		"query-string": "^7.0.1"
 	}
 }
