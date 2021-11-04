@@ -5,6 +5,9 @@ module.exports = {
             filter: {
                 type: String,
                 required: true,
+            },
+            test: {
+                type: Array
             }
         }
     },
