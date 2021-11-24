@@ -1,7 +1,7 @@
 const request = require('supertest');
 const test = require('ava');
 const express = require('express');
-const qs = require('querystring');
+const queryString = require('query-string');
 
 const lib = require('../lib/index');
 const fakeData = require('./mock/fakeRouteConfig');
@@ -27,7 +27,13 @@ app.get("/api/:test/route/:secondTest", lib(fakeData), function (req, res) {
 test('Test', async function (t) {
     const response = await request(app)
     .get("/api/paramsDynamic/route/secondParamsDynamic")
-    .query({ test: qs.stringify([true])});
+    .query(queryString.stringify(
+        { 
+            filter: 'lol', 
+            test: [true, false, 'true'], 
+            objTest: { strict: true, params: { test: { type: String, required: true }}},
+        }, { arrayFormat: 'comma' }));
+    t.log(response.body);
 
     t.pass();
 });
