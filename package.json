@@ -2,7 +2,10 @@
 	"name": "parse-route-data",
 	"version": "1.0.0",
 	"description": "Parse the HTTP data and check for validating",
-	"main": "lib/index.js",
+	"main": "umd/lib-minjs",
+	"files": [
+		"umd/**/*"
+	],
 	"author": "luctst",
 	"license": "MIT",
 	"repository": {
@@ -30,12 +33,14 @@
 		"lint:watch": "esw -w --clear --color --cache './lib/**/*.js'",
 		"lint:fix": "npx eslint --fix './lib/**/*.js'",
 		"style": "prettier -c './lib/**/*.js'",
-		"style:fix": "prettier --c --write './lib/**/*.js'"
+		"style:fix": "prettier --c --write './lib/**/*.js'",
+		"build": "webpack"
 	},
 	"devDependencies": {
 		"ava": "^3.15.0",
 		"axios": "^0.21.1",
 		"chalk": "^4.1.1",
+		"clean-webpack-plugin": "^4.0.0",
 		"eslint": "^7.27.0",
 		"eslint-config-airbnb-base": "^14.2.1",
 		"eslint-config-prettier": "^8.3.0",
@@ -45,9 +50,12 @@
 		"express": "^4.17.1",
 		"get-port": "^5.1.1",
 		"prettier": "^2.3.0",
-		"supertest": "^6.1.6"
+		"supertest": "^6.1.6",
+		"webpack-cli": "^4.9.1"
 	},
 	"dependencies": {
+		"babel-loader": "^8.2.3",
+		"cache-loader": "^4.1.0",
 		"mongoose": "^6.0.12",
 		"query-string": "^7.0.1"
 	}
