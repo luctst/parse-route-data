@@ -24,6 +24,10 @@ app.get("/api/:test/route/:secondTest", lib(fakeData), function (req, res) {
     res.status(200).json({ status: 200 });
 })
 
+app.put('/post', lib(fakeData), function(req, res) {
+    res.status(200).json({ status: 200 });
+})
+
 test('Test', async function (t) {
     const response = await request(app)
     .get("/api/paramsDynamic/route/secondParamsDynamic")
@@ -33,7 +37,5 @@ test('Test', async function (t) {
             test: [true, false, 'true'], 
             objTest: { strict: true, params: { test: { type: String, required: true }}},
         }, { arrayFormat: 'comma' }));
-    t.log(response.body);
-
     t.pass();
 });
