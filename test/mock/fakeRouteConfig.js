@@ -1,3 +1,5 @@
+const { Types } = require('mongoose');
+
 module.exports = {
     get: {
         '/:test': null,
@@ -7,8 +9,10 @@ module.exports = {
                 required: true,
             },
             test: {
-                type: Array
-            }
+                type: Array,
+                itemsType: [String, Boolean],
+                required: true,
+            },
         }
     },
 };
