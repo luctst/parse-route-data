@@ -5,7 +5,7 @@
     <b>parse-route-data</b>
   </p>
   <p>
-     <i>Intercept req data object and return only what you need</i>
+     <i>Express middleware, intercept req data object and return only what you need</i>
   </p>
   <p>
 
@@ -34,8 +34,120 @@
 `npm i parse-route-data`
 
 ## Usage 💡
-In this section you can write some popular examples about how you can interact with the project. It's advisable to write some code here.
+This package is an express middleware who perform some actions on `req.query` or `req.body` object and allow you to define what you really want in a specific route by creating a config files filled with your API routes see exemples section below.
 
+In order to create your config you must define some route schemas just like mongoose model if you work with it will sound familiar, route schema are object with fields required or not.
+
+### Common fields
+> **Note** - mixed data can be string, array, objectId, number, boolean, date, regExp type.
+
+**type**
+
+{} constructor - *required*
+
+Type define which data your field must be, can be a `String`, `Array`, `ObjectId`, `Number`, `Boolean`, `Date` constructor.
+
+---
+
+**default**
+
+Mixed - *optional*
+
+Default field allow to define which value your field should be if not defined in the `req` object.
+
+---
+
+### Data type fields
+
+Array:
+
+**maxLength**
+
+number - *optional*
+
+Define which length your field must have.
+
+---
+
+**itemsType**
+
+mixed - *optional*
+
+Define which data your items array must be.
+
+---
+
+String:
+
+**match**
+
+regExp - *optional*
+
+The string must match the regExp expression.
+
+---
+
+**canBe**
+
+array - *optional*
+
+An array of values the field string can be.
+
+---
+
+**maxLength**
+
+number - *optional*
+
+Define the max length of your string.
+
+---
+
+Number:
+
+**max**
+
+number - *optional*
+
+checks if the value is less than or equal to the given maximum.
+
+---
+
+**min**
+
+number - *optional*
+
+checks if the value is greater than or equal to the given minimum.
+
+---
+
+Date:
+
+**notBefore**
+
+date - *optional*
+
+Must be before date specified.
+
+---
+
+Object:
+
+**params**
+
+object - *optional*
+
+An object with sub schemaType who define which data your object must include.
+
+---
+
+**strict**
+
+boolean - *optional*
+
+Object must have the exact same length.
+
+---
 ## Exemples 🖍
 ```js
 // config-file.js
@@ -75,6 +187,38 @@ app.get('/test', parseRouteData(configRoutes), function (res, res) {
   return res.status(200).json({ success: true})
 })
 ```
+
+## API
+`const parseRouteData = require('parse-route-data');`
+
+## parseRouteData(config, [responseFn, options])
+
+**config**
+
+object - *required*
+
+The config object with routes schema types.
+
+---
+
+**responseFn**
+
+function - *optional*
+
+Function who takes `req`, `res`, `next` arguments and must return response to the client.
+
+---
+
+**options**
+
+object - *optional*
+
+Optional object who modify the main lib function behavior, can take:
+
+* `errorServerCode` { number }, default: `500` - The error code to return when server error.
+* `errorRouteDataCode` { number }, default: `400` - The error code to return when error with route. 
+
+---
 
 ## Contributing 🍰
 Please make sure to read the [Contributing Guide]() before making a pull request.
