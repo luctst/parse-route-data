@@ -2,9 +2,9 @@
 	"name": "parse-route-data",
 	"version": "0.0.2-2",
 	"description": "Parse the HTTP data and check for validating",
-	"main": "umd/lib-min.js",
+	"main": "lib/index.js",
 	"files": [
-		"umd/**/*"
+		"lib/**/*"
 	],
 	"author": "luctst",
 	"license": "MIT",
