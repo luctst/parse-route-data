@@ -37,6 +37,7 @@
 		"build": "webpack"
 	},
 	"devDependencies": {
+		"@babel/preset-env": "^7.16.4",
 		"ava": "^3.15.0",
 		"axios": "^0.21.1",
 		"chalk": "^4.1.1",

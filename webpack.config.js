@@ -52,22 +52,26 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.m?jsx?$/,
-        exclude: [
-          function () { /* omitted long function */ }
-        ],
-        use: [
-          {
-            loader: '/Users/lucas/Dev/parse-route-data/node_modules/cache-loader/dist/cjs.js',
-            options: {
-              cacheDirectory: '/Users/lucas/Dev/parse-route-data/node_modules/.cache/babel-loader',
-              cacheIdentifier: 'db06973c'
-            }
-          },
-          {
-            loader: '/Users/lucas/Dev/parse-route-data/node_modules/babel-loader/lib/index.js'
-          }
-        ]
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: "babel-loader",
+        options: {
+          presets: [
+            '@babel/preset-env'
+          ],
+        }
+        // use: [
+        //   {
+        //     loader: '/Users/lucas/Dev/parse-route-data/node_modules/cache-loader/dist/cjs.js',
+        //     options: {
+        //       cacheDirectory: '/Users/lucas/Dev/parse-route-data/node_modules/.cache/babel-loader',
+        //       cacheIdentifier: 'db06973c'
+        //     }
+        //   },
+        //   {
+        //     loader: '/Users/lucas/Dev/parse-route-data/node_modules/babel-loader/lib/index.js'
+        //   }
+        // ]
       },
 
     ],
