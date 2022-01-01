@@ -17,6 +17,8 @@ module.exports = {
     path: resolve(process.cwd(), 'umd'),
     chunkFilename: '[name]-min.js',
     filename: '[name]-min.js',
+    library: '', 
+    libraryTarget: 'commonjs-module'
   },
   resolve: {
     extensions: [
