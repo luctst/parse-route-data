@@ -217,6 +217,7 @@ Optional object who modify the main lib function behavior, can take:
 
 * `errorServerCode` { number }, default: `500` - The error code to return when server error.
 * `errorRouteDataCode` { number }, default: `400` - The error code to return when error with route. 
+* `envIsDev` { Boolean }, default: `production` - Either the package is runnning in dev or production mode.
 
 ---
 
