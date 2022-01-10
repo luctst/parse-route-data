@@ -2,6 +2,12 @@ const { Types } = require('mongoose');
 
 module.exports = {
     get: {
+        '/api/room/:uuid': {
+            createSession: {
+                type: Boolean,
+                default: false,
+            }
+        },
         '/:test': null,
         "/api/:test/route/:secondTest": {
             filter: {
