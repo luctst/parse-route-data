@@ -13,38 +13,53 @@ const app = express();
 app.set('query parser', 'simple');
 app.use(express.json());
 
-app.get('/api/room/:uuid', [ lib(fakeData) ], function (req, res) {
-    res.status(200).json({ status: 200 });
+app.get('/api/room/:uuid', [lib(fakeData)], function (req, res) {
+  res.status(200).json({ status: 200 });
 })
 
 app.get('/:test', lib(fakeData), function (req, res) {
-    res.status(200).json({ status: 200 });
+  res.status(200).json({ status: 200 });
 })
 
 app.get("/api/:test/route/:secondTest", lib(fakeData), function (req, res) {
-    res.status(200).json({ status: 200 });
+  res.status(200).json({ status: 200 });
 })
 
-app.put('/post', lib(fakeData), function(req, res) {
-    res.status(200).json({ status: 200 });
+app.put('/post', lib(fakeData), function (req, res) {
+  res.status(200).json({ status: 200 });
 })
 
-test.skip('Test', async function (t) {
-    const response = await request(app)
+app.post('/api/room/:uuid/account', lib(fakeData), function (req, res) {
+  res.status(200).json({ status: 200 });
+});
+
+test('Test', async function (t) {
+  const response = await request(app)
     .get("/api/paramsDynamic/route/secondParamsDynamic")
     .query(queryString.stringify(
-        { 
-            filter: 'lol', 
-            test: [true, false, 'true'], 
-            objTest: { strict: true, params: { test: { type: String, required: true }}},
-        }, { arrayFormat: 'comma' }));
-    t.pass();
+      {
+        filter: 'lol',
+        test: [true, false, 'true'],
+        objTest: { strict: true, params: { test: { type: String, required: true } } },
+      }, { arrayFormat: 'comma' }));
+  t.pass();
 });
 
 test('GET with query', async function (t) {
-    const res = await request(app)
+  const res = await request(app)
     .get('/api/room/:uuid')
     .query({ createSession: true })
     .expect(200);
+  t.pass();
+});
+
+test('POST with string canBe field', async function (t) {
+  const r = await request(app)
+    .post('/api/room/:uuid/account')
+    .send({ theme: '007bff'})
+    .expect(200);
+
+    t.log(r.body);
+
     t.pass();
 });
