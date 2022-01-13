@@ -53,10 +53,10 @@ test('GET with query', async function (t) {
   t.pass();
 });
 
-test('POST with string canBe field', async function (t) {
+test('POST with string canBe and match field', async function (t) {
   const r = await request(app)
     .post('/api/room/:uuid/account')
-    .send({ theme: '007bff'})
+    .send({ theme: '007bff', roomId: 'f03f70fc-98aa-4968-a70a-61387d96b1e2'})
     .expect(200);
 
     t.log(r.body);
