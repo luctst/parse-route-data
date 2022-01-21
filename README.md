@@ -9,6 +9,7 @@
   </p>
   <p>
 
+[![Node.js Package](https://github.com/luctst/parse-route-data/actions/workflows/npm-publish.yml/badge.svg?event=create)](https://github.com/luctst/parse-route-data/actions/workflows/npm-publish.yml)
 [![Build Status](https://travis-ci.com/luctst/parse-route-data.svg?branch=master)](https://travis-ci.com/luctst/parse-route-data)
 [![NPM version](https://img.shields.io/npm/v/parse-route-data?style=flat-square)](https://img.shields.io/npm/v/parse-route-data?style=flat-square)
 [![Package size](https://img.shields.io/bundlephobia/min/parse-route-data)](https://img.shields.io/bundlephobia/min/parse-route-data)
