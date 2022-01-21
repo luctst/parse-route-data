@@ -13,7 +13,40 @@ module.exports = {
         required: true,
         match: /\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/,
       },
-    }
+    },
+    '/api/array/with/subschema': {
+      data: {
+        type: Array,
+        itemsType: Object,
+        itemsSchema: {
+          isCredit: {
+            type: Boolean,
+            required: true,
+          },
+          isFieldObjectId: {
+            type: Boolean,
+            required: true,
+          },
+          amount: {
+            type: Number,
+            required: true,
+            min: 0,
+          },
+          info: {
+            type: String,
+            maxlength: 75,
+          },
+          to: {
+            type: Types.ObjectId,
+            required: true,
+          },
+          from: {
+            type: Types.ObjectId,
+            required: true,
+          },
+        }
+      }
+    },
   },
   get: {
     '/api/room/:uuid': {

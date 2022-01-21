@@ -33,6 +33,10 @@ app.post('/api/room/:uuid/account', lib(fakeData), function (req, res) {
   res.status(200).json({ status: 200 });
 });
 
+app.post('/api/array/with/subschema', lib(fakeData), function (req, res) {
+  res.status(200).json({ status: 200 });
+})
+
 test('Test', async function (t) {
   const response = await request(app)
     .get("/api/paramsDynamic/route/secondParamsDynamic")
@@ -41,7 +45,8 @@ test('Test', async function (t) {
         filter: 'lol',
         test: [true, false, 'true'],
         objTest: { strict: true, params: { test: { type: String, required: true } } },
-      }, { arrayFormat: 'comma' }));
+      }, { arrayFormat: 'comma' }))
+    .expect(200);
   t.pass();
 });
 
@@ -59,7 +64,26 @@ test('POST with string canBe and match field', async function (t) {
     .send({ theme: '007bff', roomId: 'f03f70fc-98aa-4968-a70a-61387d96b1e2'})
     .expect(200);
 
-    t.log(r.body);
-
     t.pass();
+});
+
+test('array with itemSchema', async function (t) {
+  const r = await request(app)
+  .post('/api/array/with/subschema')
+  .send(
+    { 
+      data: [
+        {
+          isCredit: true, 
+          amount: 230, 
+          to: "61e95434f307970020bfa64b", 
+          from: "61e95b96f307970020bfa67a", 
+          isFieldObjectId: true, 
+          info: "test"
+        }
+      ]
+    }
+  )
+  .expect(200);
+  t.pass();
 });
