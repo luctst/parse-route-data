@@ -135,15 +135,6 @@ app.post('/api/user', parseRouteData(configRoutes), greateSuccess);
 // other routes..
 ```
 
-### Common fields
-> **Note** - mixed data can be string, array, objectId, number, boolean, date, regExp type.
-
-**type**
-
-{} constructor - *required*
-
-Type define which data your field must be, can be a `String`, `Array`, `ObjectId`, `Number`, `Boolean`, `Date` constructor.
-
 ## API
 ---
 ### parseRouteData(config, [responseFn, options])
