@@ -12,31 +12,63 @@
 [![Build Status](https://travis-ci.com/luctst/parse-route-data.svg?branch=master)](https://travis-ci.com/luctst/parse-route-data)
 [![NPM version](https://img.shields.io/npm/v/parse-route-data?style=flat-square)](https://img.shields.io/npm/v/parse-route-data?style=flat-square)
 [![Package size](https://img.shields.io/bundlephobia/min/parse-route-data)](https://img.shields.io/bundlephobia/min/parse-route-data)
-[![Dependencies](https://img.shields.io/david/luctst/parse-route-data.svg?style=popout-square)](https://david-dm.org/luctst/parse-route-data)
-[![devDependencies Status](https://david-dm.org/luctst/parse-route-data/dev-status.svg?style=flat-square)](https://david-dm.org/luctst/parse-route-data?type=dev)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
-[![Twitter](https://img.shields.io/twitter/follow/luctstt.svg?label=Follow&style=social)](https://twitter.com/luctstt)
-
   </p>
 </div>
 
+## Why 🤔
 ---
-
-**Content**
-
-* [Install](##install)
-* [Usage](##usage)
-* [Exemples](##exemples)
-* [Contributing](##contributing)
-* [Maintainers](##maintainers)
-
-## Install 🐙
-`npm i parse-route-data`
-
-## Usage 💡
 This package is an express middleware who perform some actions on `req.query` or `req.body` object and allow you to define what you really want in a specific route by creating a config files filled with your API routes see exemples section below.
 
 In order to create your config you must define some route schemas just like mongoose model if you work with it will sound familiar, route schema are object with fields required or not.
+
+## Install 🐙
+---
+```bash
+$ npm i parse-route-data
+```
+
+## Usage 💡
+---
+**Config file**
+```js
+// ./dev/foo/config.js
+module.exports = {
+  get: {
+    '/:test': null,
+    "/api/:test/route/:secondTest": {
+      filter: {
+          type: String,
+          required: true,
+      },
+      test: {
+          type: Array,
+          itemsType: [String, Boolean],
+          required: true,
+      },
+    }
+  },
+  post: {
+    '/add/user': {
+      name: {
+        type: String,
+        required: true,
+        maxLength: 10,
+      }
+    }
+  }
+}
+```
+
+```js
+// ./dev/foo/routes/routeApi.js
+const configRoutes = require('../config.js');
+const parseRouteData = require('parse-route-data');
+
+app.get('/test', parseRouteData(configRoutes), function (res, res) {
+  return res.status(200).json({ success: true})
+})
+```
 
 ### Common fields
 > **Note** - mixed data can be string, array, objectId, number, boolean, date, regExp type.
@@ -147,50 +179,8 @@ boolean - *optional*
 
 Object must have the exact same length.
 
----
-## Exemples 🖍
-```js
-// config-file.js
-
-module.exports = {
-  get: {
-    '/:test': null,
-    "/api/:test/route/:secondTest": {
-      filter: {
-          type: String,
-          required: true,
-      },
-      test: {
-          type: Array,
-          itemsType: [String, Boolean],
-          required: true,
-      },
-    }
-  },
-  post: {
-    '/add/user': {
-      name: {
-        type: String,
-        required: true,
-        maxLength: 10,
-      }
-    }
-  }
-}
-```
-
-```js
-const configRoutes = require('./config-file.js');
-const parseRouteData = require('parse-route-data');
-
-app.get('/test', parseRouteData(configRoutes), function (res, res) {
-  return res.status(200).json({ success: true})
-})
-```
-
 ## API
-`const parseRouteData = require('parse-route-data');`
-
+---
 ## parseRouteData(config, [responseFn, options])
 
 **config**
