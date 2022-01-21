@@ -18,9 +18,9 @@
 
 ## Why 🤔
 ---
-This package is an express middleware who perform some actions on `req.query` or `req.body` object and allow you to define what you really want in a specific route by creating a config files filled with your API routes see exemples section below.
+This package is an express middleware who perform some actions on `req.query` or `req.body` object and allow you to define what you really want in a specific route by creating a config files filled with your API routes.
 
-In order to create your config you must define some route schemas just like mongoose model if you work with it will sound familiar, route schema are object with fields required or not.
+Concretely using a config file with route schemas we retrieve the data sent from the client either from `req.query` or `req.body` then we compare this data with your configuration file and if they do not match the program returns an error or he keeps running.
 
 ## Install 🐙
 ---
@@ -30,13 +30,50 @@ $ npm i parse-route-data
 
 ## Usage 💡
 ---
-**Config file**
+
+First you need to create a config `object`, create a file and export an object from this file, there are a couple of rules in order to correctly create the config `object`.
+
+### First level key
+The first level of your config object should only include HTTP methods see the list below and their values should be `object`
+
+* [HTTP verbs](https://developer.mozilla.org/fr/docs/Web/HTTP/Methods)
+
+### Second level key
+Inside your http method object you can write your API routes, the value keys must be string and their values `object`, let's say your API has three routes (two statics, one with dynamic params) one with the GET method, one with POST and finally one with DELETE, you can write those routes like this:
+
+* GET, `/api/user`,
+* POST `/api/session/user`,
+* DELETE `/api/:user`
+
+> **Note** - Do not forget to start all your routes with `/`, you may notice that to use dynamic data in your route you can use `:` there is nothing fancy here this is Express logic.
+
+### Third level key
+At this level you can define which data your route should received, 
+
+inside the route object start creating your schema a route schema is simply an object with some keys which are `object` and contains some schemaType
+
+| SchemaType | Constructor | Values   | Description  |
+| ------     | ----------- | -------  | ---          |
+| type*      | All         | Mixed    | Type define which data your field must be |
+| required   | All         | Boolean  | Is this field must be include in your data|
+| default    | All         | Mixed    | Define which value your field should be if not created|
+| maxLength  | Array, String| Number  | Which length your field must have|
+| itemsType  | Array       | Mixed    | Which data your inner items must be|
+| itemsSchema| Array, Object| Object  | Object with SchemaType|
+| match      | String       | RegExp  | Should match the regExp expression|
+| canBe      | String       | Array   | Array of strings your field should match, at least one item|
+| min        | Number       | Number  | Value is less or equal|
+| max        | Number       | Number  | Value is greater or equal|
+| notBefore  | Date         | Date    | Must be before date specified|
+| strict     | Object       | Boolean | Must have the exact same length|
+
+## Real case exemple
 ```js
 // ./dev/foo/config.js
 module.exports = {
   get: {
-    '/:test': null,
-    "/api/:test/route/:secondTest": {
+    '/api/foo': null,
+    "/api/:foo/route/:foofoo": {
       filter: {
           type: String,
           required: true,
@@ -49,13 +86,16 @@ module.exports = {
     }
   },
   post: {
-    '/add/user': {
+    '/api/user': {
       name: {
         type: String,
         required: true,
         maxLength: 10,
       }
     }
+  },
+  delete: {
+    '/api/user/:id': null,
   }
 }
 ```
@@ -65,9 +105,33 @@ module.exports = {
 const configRoutes = require('../config.js');
 const parseRouteData = require('parse-route-data');
 
-app.get('/test', parseRouteData(configRoutes), function (res, res) {
-  return res.status(200).json({ success: true})
-})
+function greatSuccess (res, res) {
+  return res.status(200).json({ success: true });
+}
+
+// 200
+app.get('/api/:foo', parseRouteData(configRoutes), greatSuccess);
+
+// req.query = {},
+// Error, require req.query = { filter: 'good', test: ['good', false]};
+app.get('/api/:foo/route/:foofoo', parseRouteData(configRoutes), greateSuccess);
+
+// 200
+app.get('/api/:foo/route/:foofoo?filter=good&test=['good', false]', parseRouteData(configRoutes), greateSuccess);
+
+// req.body = {};
+// Error, require req.body = { name: 'no name'}
+app.post('/api/user', parseRouteData(configRoutes), greateSuccess);
+
+// req.body = { name: 'this is a very long name'};
+//Error, require name less than 10 characters.
+app.post('/api/user', parseRouteData(configRoutes), greateSuccess);
+
+// req.body = { name: 'Pennywise'};
+// 200
+app.post('/api/user', parseRouteData(configRoutes), greateSuccess);
+
+// other routes..
 ```
 
 ### Common fields
@@ -79,113 +143,13 @@ app.get('/test', parseRouteData(configRoutes), function (res, res) {
 
 Type define which data your field must be, can be a `String`, `Array`, `ObjectId`, `Number`, `Boolean`, `Date` constructor.
 
----
-
-**default**
-
-Mixed - *optional*
-
-Default field allow to define which value your field should be if not defined in the `req` object.
-
----
-
-### Data type fields
-
-Array:
-
-**maxLength**
-
-number - *optional*
-
-Define which length your field must have.
-
----
-
-**itemsType**
-
-mixed - *optional*
-
-Define which data your items array must be.
-
----
-
-String:
-
-**match**
-
-regExp - *optional*
-
-The string must match the regExp expression.
-
----
-
-**canBe**
-
-array - *optional*
-
-An array of values the field string can be.
-
----
-
-**maxLength**
-
-number - *optional*
-
-Define the max length of your string.
-
----
-
-Number:
-
-**max**
-
-number - *optional*
-
-checks if the value is less than or equal to the given maximum.
-
----
-
-**min**
-
-number - *optional*
-
-checks if the value is greater than or equal to the given minimum.
-
----
-
-Date:
-
-**notBefore**
-
-date - *optional*
-
-Must be before date specified.
-
----
-
-Object:
-
-**params**
-
-object - *optional*
-
-An object with sub schemaType who define which data your object must include.
-
----
-
-**strict**
-
-boolean - *optional*
-
-Object must have the exact same length.
-
 ## API
 ---
-## parseRouteData(config, [responseFn, options])
+### parseRouteData(config, [responseFn, options])
 
 **config**
 
-object - *required*
+Type: `object` - *required*
 
 The config object with routes schema types.
 
@@ -193,7 +157,7 @@ The config object with routes schema types.
 
 **responseFn**
 
-function - *optional*
+Type: `function` - *optional*
 
 Function who takes `req`, `res`, `next` arguments and must return response to the client.
 
@@ -201,13 +165,31 @@ Function who takes `req`, `res`, `next` arguments and must return response to th
 
 **options**
 
-object - *optional*
+Type: `object` - *optional*
 
-Optional object who modify the main lib function behavior, can take:
+#### errorServerCode
 
-* `errorServerCode` { number }, default: `500` - The error code to return when server error.
-* `errorRouteDataCode` { number }, default: `400` - The error code to return when error with route. 
-* `envIsDev` { String ['production', 'development'] }, default: `production` - Either the package is runnning in dev or production mode.
+Type: `number`
+
+Default: `500`
+
+The error code to return when server error.
+
+#### errorRouteDataCode
+
+Type: `number`
+
+Default: `400`
+
+The error code to return when error with route. 
+
+#### envIsDev
+
+Type: `string`
+
+Default: `production`
+
+Either the package is runnning in dev or production mode.
 
 ---
 
