@@ -24,13 +24,12 @@ This package is an express middleware who perform some actions on `req.query` or
 Concretely using a config file with route schemas we retrieve the data sent from the client either from `req.query` or `req.body` then we compare this data with your configuration file and if they do not match the program returns an error or he keeps running.
 
 ## Install 🐙
----
+
 ```bash
 $ npm i parse-route-data
 ```
 
 ## Usage 💡
----
 
 First you need to create a config `object`, create a file and export an object from this file, there are a couple of rules in order to correctly create the config `object`.
 
@@ -136,7 +135,7 @@ app.post('/api/user', parseRouteData(configRoutes), greateSuccess);
 ```
 
 ## API
----
+
 ### parseRouteData(config, [responseFn, options])
 
 **config**
