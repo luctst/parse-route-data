@@ -25,6 +25,10 @@
 	"ava": {
 		"cache": true
 	},
+	"np": {
+		"publish": false,
+		"yarn": false
+	},
 	"keywords": [],
 	"scripts": {
 		"test": "ava --verbose ./test/*.js",
