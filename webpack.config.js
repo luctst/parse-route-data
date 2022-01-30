@@ -1,5 +1,6 @@
 const { resolve } = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   mode: 'production',
@@ -12,7 +13,6 @@ module.exports = {
   context: resolve(process.cwd(), 'lib'),
   entry: {
     lib: './index.js',
-    export: './export.js'
   },
   output: {
     path: resolve(process.cwd(), 'umd'),
@@ -63,18 +63,6 @@ module.exports = {
             '@babel/preset-env'
           ],
         }
-        // use: [
-        //   {
-        //     loader: '/Users/lucas/Dev/parse-route-data/node_modules/cache-loader/dist/cjs.js',
-        //     options: {
-        //       cacheDirectory: '/Users/lucas/Dev/parse-route-data/node_modules/.cache/babel-loader',
-        //       cacheIdentifier: 'db06973c'
-        //     }
-        //   },
-        //   {
-        //     loader: '/Users/lucas/Dev/parse-route-data/node_modules/babel-loader/lib/index.js'
-        //   }
-        // ]
       },
 
     ],
@@ -82,6 +70,14 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin({
       verbose: true,
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: './',
+          to: 'build'
+        }
+      ],
     }),
   ],
 };
