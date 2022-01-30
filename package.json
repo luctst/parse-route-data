@@ -2,7 +2,7 @@
 	"name": "parse-route-data",
 	"version": "3.0.1",
 	"description": "Parse the HTTP data and check for validating",
-	"main": "umd/lib-min.js",
+	"main": "umd/export-min.js",
 	"files": [
 		"umd/**/*"
 	],
@@ -26,6 +26,7 @@
 		"cache": true
 	},
 	"np": {
+		"publish": false,
 		"yarn": false
 	},
 	"keywords": [],
@@ -37,7 +38,7 @@
 		"lint:fix": "npx eslint --fix './lib/**/*.js'",
 		"style": "prettier -c './lib/**/*.js'",
 		"style:fix": "prettier --c --write './lib/**/*.js'",
-		"build": "webpack"
+		"build": "cp -R ./lib ./umd/lib-dev/ && webpack"
 	},
 	"devDependencies": {
 		"@babel/preset-env": "^7.16.4",

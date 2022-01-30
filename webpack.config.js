@@ -11,7 +11,8 @@ module.exports = {
   },
   context: resolve(process.cwd(), 'lib'),
   entry: {
-    lib: './index.js'
+    lib: './index.js',
+    export: './export.js'
   },
   output: {
     path: resolve(process.cwd(), 'umd'),
