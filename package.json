@@ -26,7 +26,6 @@
 		"cache": true
 	},
 	"np": {
-		"publish": false,
 		"yarn": false
 	},
 	"keywords": [],
