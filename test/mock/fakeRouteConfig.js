@@ -37,11 +37,11 @@ module.exports = {
             maxlength: 75,
           },
           to: {
-            type: Types.ObjectId,
+            type: [Types.ObjectId, String],
             required: true,
           },
           from: {
-            type: Types.ObjectId,
+            type: [Types.ObjectId, String],
             required: true,
           },
         }
