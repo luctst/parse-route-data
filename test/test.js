@@ -13,6 +13,10 @@ const app = express();
 app.set('query parser', 'simple');
 app.use(express.json());
 
+app.get('/api/verify/objectid', lib(fakeData), function (req, res) {
+  res.status(200).json({ status: 200 });
+})
+
 app.get('/api/room/:uuid', [lib(fakeData)], function (req, res) {
   res.status(200).json({ status: 200 });
 })
@@ -37,7 +41,7 @@ app.post('/api/array/with/subschema', lib(fakeData), function (req, res) {
   res.status(200).json({ status: 200 });
 })
 
-test('Test', async function (t) {
+test('route with dynamic params', async function (t) {
   const response = await request(app)
     .get("/api/paramsDynamic/route/secondParamsDynamic")
     .query(queryString.stringify(
@@ -84,6 +88,14 @@ test('array with itemSchema', async function (t) {
       ]
     }
   )
+  .expect(200);
+  t.pass();
+});
+
+test('ObjectId with GET', async function (t) {
+  await request(app)
+  .get('/api/verify/objectid')
+  .query({ oid: '61e95434f307970020bfa64b'})
   .expect(200);
   t.pass();
 });

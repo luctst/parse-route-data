@@ -49,6 +49,12 @@ module.exports = {
     },
   },
   get: {
+    '/api/verify/objectid': {
+      oid: {
+        type: Types.ObjectId,
+        required: true,
+      }
+    },
     '/api/room/:uuid': {
       createSession: {
         type: Boolean,
