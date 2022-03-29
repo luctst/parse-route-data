@@ -7,40 +7,50 @@ const lib = require('../lib/index');
 const fakeData = require('./mock/fakeRouteConfig');
 
 const app = express();
+
+function routeSuccess(req, res) {
+  return res.status(200).json({ status: 200 });
+}
+
+function middleware() {
+  const parseRouteDataOps = {
+    envIsDev: 'development',
+  };
+
+  return lib(fakeData, null, parseRouteDataOps);
+};
+
 /**
  * Express logic
  */
 app.set('query parser', 'simple');
 app.use(express.json());
 
-app.get('/api/verify/objectid', lib(fakeData), function (req, res) {
-  res.status(200).json({ status: 200 });
-})
+/**
+ * GET
+ */
+app.get('/api/verify/objectid', middleware(), routeSuccess);
+app.get('/api/room/:uuid', [middleware()], routeSuccess);
+app.get('/api/test/:kuid', [middleware()], routeSuccess);
+app.get('/:test', middleware(), routeSuccess);
+app.get("/api/:test/route/:secondTest", middleware(), routeSuccess);
+app.get('/t/donotexist', middleware(), routeSuccess);
 
-app.get('/api/room/:uuid', [lib(fakeData)], function (req, res) {
-  res.status(200).json({ status: 200 });
-})
+/**
+ * POST
+ */
+app.post('/api/room/:uuid/account', middleware(), routeSuccess);
+app.post('/api/array/with/subschema', middleware(), routeSuccess);
+app.post('/operation', middleware(), routeSuccess);
 
-app.get('/:test', lib(fakeData), function (req, res) {
-  res.status(200).json({ status: 200 });
-})
+/**
+ * PUT
+ */
+app.put('/post', middleware(), routeSuccess);
 
-app.get("/api/:test/route/:secondTest", lib(fakeData), function (req, res) {
-  res.status(200).json({ status: 200 });
-})
-
-app.put('/post', lib(fakeData), function (req, res) {
-  res.status(200).json({ status: 200 });
-})
-
-app.post('/api/room/:uuid/account', lib(fakeData), function (req, res) {
-  res.status(200).json({ status: 200 });
-});
-
-app.post('/api/array/with/subschema', lib(fakeData), function (req, res) {
-  res.status(200).json({ status: 200 });
-})
-
+/**
+ * Run tests
+ */
 test('route with dynamic params', async function (t) {
   const response = await request(app)
     .get("/api/paramsDynamic/route/secondParamsDynamic")
@@ -50,25 +60,33 @@ test('route with dynamic params', async function (t) {
         test: [true, false, 'true'],
         objTest: { strict: true, params: { test: { type: String, required: true } } },
       }, { arrayFormat: 'comma' }))
-    .expect(200);
-  t.pass();
+
+  t.pass(response.status, 200, response.body.message);
 });
 
 test('GET with query', async function (t) {
   const res = await request(app)
-    .get('/api/room/:uuid')
+    .get('/api/room/11-sdf-ghk-lkj')
     .query({ createSession: true })
-    .expect(200);
-  t.pass();
+
+  t.pass(res.status, 200, res.body.message);
 });
+
+test('GET with query two', async function (t) {
+  const r = await request(app)
+    .get('/api/test/123SDQDFF')
+    .query({ keywords: "fo-foo-fooo-foooo"})
+
+  t.pass(r.status, 200, r.body.message);
+})
 
 test('POST with string canBe and match field', async function (t) {
   const r = await request(app)
-    .post('/api/room/:uuid/account')
+    .post('/api/room/AZRERTERY/account')
     .send({ theme: '007bff', roomId: 'f03f70fc-98aa-4968-a70a-61387d96b1e2'})
-    .expect(200);
 
-    t.pass();
+
+    t.pass(r.status, 200, r.body.message);
 });
 
 test('array with itemSchema', async function (t) {
@@ -88,14 +106,36 @@ test('array with itemSchema', async function (t) {
       ]
     }
   )
-  .expect(200);
-  t.pass();
+
+  t.is(r.status, 200, r.body.message);
 });
 
 test('ObjectId with GET', async function (t) {
-  await request(app)
+  const r = await request(app)
   .get('/api/verify/objectid')
-  .query({ oid: '61e95434f307970020bfa64b'})
-  .expect(200);
-  t.pass();
+  .query({ kuid: '61e95434f307970020bfa64b'})
+
+  t.is(r.status, 200, r.body.message);
+});
+
+test('GET with dynamic params', async function (t) {
+  const r = await request(app)
+  .get('/test')
+
+  t.is(r.status, 200, r.body.message);
+});
+
+test('bad routes static', async function (t) {
+  const r = await request(app)
+  .get('/t/donotexist')
+
+  t.is(r.status, 500, r.body.message);
+});
+
+test('POST with field with many types', async function (t) {
+  const r = await request(app)
+  .post('/operation')
+  .send({ to: 'foo' })
+
+  t.is(r.status, 200, r.body.message);
 });
