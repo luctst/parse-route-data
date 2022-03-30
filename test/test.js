@@ -135,7 +135,7 @@ test('bad routes static', async function (t) {
 test('POST with field with many types', async function (t) {
   const r = await request(app)
   .post('/operation')
-  .send({ to: 'foo' })
+    .send({ to: '623e447304bad230d436a52c', from: 'foo' })
 
   t.is(r.status, 200, r.body.message);
 });
