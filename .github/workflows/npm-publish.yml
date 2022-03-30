@@ -48,12 +48,20 @@ jobs:
     needs: CI
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Checkout 
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
         with:
           node-version: 16
           cache: 'npm'
-      - run: npm run build
+      
+      - name: Install dependencies
+        run: npm i
+      
+      - name: Build
+        run: npm run build
 
   publish-npm:
     needs: build
