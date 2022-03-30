@@ -61,7 +61,7 @@
 		"babel-loader": "^8.2.3",
 		"cache-loader": "^4.1.0",
 		"copy-webpack-plugin": "^6.4.1",
-		"mongoose": "^6.0.12",
+		"mongoose": "^6.2.9",
 		"query-string": "^7.0.1"
 	}
 }
