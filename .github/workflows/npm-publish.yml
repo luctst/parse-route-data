@@ -45,8 +45,8 @@ jobs:
       - name: Run linter 👀
         run: npm run lint
         
-  build:
-    needs: CI
+  publish-npm:
+    needs: ci
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 
@@ -56,24 +56,11 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16
-          cache: 'npm'
-      
-      - name: Install dependencies
-        run: npm i
-      
-      - name: Build
-        run: npm run build
-
-  publish-npm:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 16
           registry-url: https://registry.npmjs.org/
-          cache: "npm"
-      - run: npm publish
+          cache: 'npm'
+      - run: |
+          npm install
+          npm run build
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
