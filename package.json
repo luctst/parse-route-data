@@ -1,6 +1,6 @@
 {
 	"name": "parse-route-data",
-	"version": "3.5.6",
+	"version": "3.5.7",
 	"description": "Parse the HTTP data and check for validating",
 	"main": "umd/lib-min.js",
 	"files": [
@@ -45,6 +45,7 @@
 		"axios": "^0.21.1",
 		"chalk": "^4.1.1",
 		"clean-webpack-plugin": "^4.0.0",
+		"esbuild-loader": "^2.18.0",
 		"eslint": "^7.27.0",
 		"eslint-config-airbnb-base": "^14.2.1",
 		"eslint-config-prettier": "^8.3.0",

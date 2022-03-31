@@ -1,5 +1,6 @@
 const { resolve } = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { ESBuildMinifyPlugin } = require('esbuild-loader')
 
 module.exports = {
   mode: 'production',
@@ -34,6 +35,11 @@ module.exports = {
     ],
   },
   optimization: {
+    minimizer: [
+      new ESBuildMinifyPlugin({
+        keepNames: true,
+      }),
+    ],
     minimize: true,
     splitChunks: {
       cacheGroups: {
