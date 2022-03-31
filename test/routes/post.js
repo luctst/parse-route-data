@@ -1,4 +1,4 @@
-const { Types } = require('mongoose');
+const mongoose = require('mongoose');
 
 module.exports = [
   {
@@ -41,11 +41,11 @@ module.exports = [
             maxlength: 75,
           },
           to: {
-            type: [Types.ObjectId, String],
+            type: [mongoose.Types.ObjectId, String],
             required: true,
           },
           from: {
-            type: [Types.ObjectId, String],
+            type: [mongoose.Types.ObjectId, String],
             required: true,
           },
         }
@@ -57,11 +57,11 @@ module.exports = [
     method: 'post',
     data: {
       to: {
-        type: [Types.ObjectId, String],
+        type: [mongoose.Types.ObjectId, String],
         required: true,
       },
       from: {
-        type: [Types.ObjectId, String],
+        type: [mongoose.Types.ObjectId, String],
         required: true,
       },
     },

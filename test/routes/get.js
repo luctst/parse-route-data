@@ -1,4 +1,4 @@
-const { Types } = require('mongoose');
+const mongoose = require('mongoose');
 
 module.exports = [
   {
@@ -14,7 +14,7 @@ module.exports = [
     path: '/api/verify/objectid',
     data: {
       kuid: {
-        type: Types.ObjectId,
+        type: mongoose.Types.ObjectId,
         required: true,
       }
     },
