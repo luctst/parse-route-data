@@ -43,6 +43,7 @@
 		"build:dev": "webpack --config webpack.dev.config.js"
 	},
 	"devDependencies": {
+		"@babel/core": "^7.17.8",
 		"@babel/preset-env": "^7.16.4",
 		"ava": "^3.15.0",
 		"axios": "^0.21.1",
