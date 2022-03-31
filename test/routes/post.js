@@ -56,6 +56,16 @@ module.exports = [
     path: '/operation',
     method: 'post',
     data: {
+      amount: {
+        type: Number,
+        required: true,
+        min: 0,
+      },
+      info: {
+        type: String,
+        required: true,
+        maxLength: 75,
+      },
       to: {
         type: [mongoose.Types.ObjectId, String],
         required: true,

@@ -39,8 +39,14 @@ jobs:
       - name: Install dependencies 👨🏻‍💻
         run: npm ci --prefer-offline --no-audit
       
-      - name: Run test 🔫
-        run: npm run test
+      - name: Build for testing 🏢
+        run: npm run build:dev
+      
+      - name: Run test preprod 🔫
+        run: npm run test:preprod
+      
+      - name: Run test prod ⚠️
+        run: npm run test:prod
 
       - name: Run linter 👀
         run: npm run lint

@@ -3,7 +3,8 @@ const test = require('ava');
 const express = require('express');
 const queryString = require('query-string');
 
-const lib = require('../lib/index');
+const pathFn = process.env.FILENAME ? process.env.FILENAME : '../lib/index';
+const lib = require(pathFn);
 const fakeData = require('./mock/fakeRouteConfig');
 
 const app = express();
@@ -135,7 +136,7 @@ test('bad routes static', async function (t) {
 test('POST with field with many types', async function (t) {
   const r = await request(app)
   .post('/operation')
-    .send({ to: '623e447304bad230d436a52c', from: 'foo' })
+    .send({ to: '623e447304bad230d436a52c', from: 'foo', amount: 20, info: 'foo-foo' })
 
   t.is(r.status, 200, r.body.message);
 });
