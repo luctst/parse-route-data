@@ -50,6 +50,11 @@ app.post('/operation', middleware(), routeSuccess);
 app.put('/post', middleware(), routeSuccess);
 
 /**
+ * Delete
+ */
+app.delete('/api/deletewithparamsarray', middleware(), routeSuccess);
+
+/**
  * Run tests
  */
 test('route with dynamic params', async function (t) {
@@ -138,5 +143,12 @@ test('POST with field with many types', async function (t) {
   .post('/operation')
     .send({ to: '623e447304bad230d436a52c', from: 'foo', amount: 20, info: 'foo-foo' })
 
+  t.is(r.status, 200, r.body.message);
+});
+
+test('DELETE with queryparams as array', async function(t) {
+  const r = await request(app)
+    .delete('/api/deletewithparamsarray?array=624d9fdabe39351e2c49f2ac,624d9f33917a20db0390d390');
+  
   t.is(r.status, 200, r.body.message);
 });

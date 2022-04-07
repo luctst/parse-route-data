@@ -1,4 +1,5 @@
 const routes = {
+  delete: require('../routes/delete'),
   post: require('../routes/post'),
   get: require('../routes/get'),
 };
