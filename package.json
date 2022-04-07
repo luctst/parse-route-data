@@ -1,6 +1,6 @@
 {
 	"name": "parse-route-data",
-	"version": "3.5.8",
+	"version": "3.5.9",
 	"description": "Parse the HTTP data and check for validating",
 	"main": "umd/lib-min.js",
 	"files": [
