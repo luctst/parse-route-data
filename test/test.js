@@ -50,6 +50,11 @@ app.post('/operation', middleware(), routeSuccess);
 app.put('/post', middleware(), routeSuccess);
 
 /**
+ * PATCH
+ */
+app.patch('/user/:userId', middleware(), routeSuccess);
+
+/**
  * Delete
  */
 app.delete('/api/deletewithparamsarray', middleware(), routeSuccess);
@@ -152,3 +157,11 @@ test('DELETE with queryparams as array', async function(t) {
   
   t.is(r.status, 200, r.body.message);
 });
+
+test('PATCH with dynamic params', async function(t){
+  const r = await request(app)
+    .patch('/user/624d9fdabe39351e2c49f2ac')
+    .send({ new: false });
+  
+  t.is(r.status, 200, r.body.message);
+})
