@@ -76,4 +76,13 @@ module.exports = [
       },
     },
   },
+  {
+    path: '/adddate',
+    data: {
+      createdAt: {
+        type: Date,
+        required: true,
+      },
+    },
+  },
 ];

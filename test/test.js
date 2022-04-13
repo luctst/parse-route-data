@@ -43,6 +43,7 @@ app.get('/t/donotexist', middleware(), routeSuccess);
 app.post('/api/room/:uuid/account', middleware(), routeSuccess);
 app.post('/api/array/with/subschema', middleware(), routeSuccess);
 app.post('/operation', middleware(), routeSuccess);
+app.post('/adddate', middleware(), routeSuccess);
 
 /**
  * PUT
@@ -165,3 +166,11 @@ test('PATCH with dynamic params', async function(t){
   
   t.is(r.status, 200, r.body.message);
 })
+
+test('POST test route with date', async function(t) {
+  const r = await request(app)
+    .post('/adddate')
+    .send({ createdAt: new Date()})
+  
+  t.is(r.status, 200, r.body.message);
+});
